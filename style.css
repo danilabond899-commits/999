@@ -1,39 +1,126 @@
+/* Общие настройки */
+:root{
+  /* запасные цвета, если переменные Telegram не доступны */
+  --tg-theme-bg-color: #ffffff;
+  --tg-theme-text-color: #111827;
+  --accent: #f8a818;
+}
+
+/* Если Telegram WebApp задаёт свои CSS-переменные — используем их */
 body {
-    margin: 0;
-    padding: 0;
-    font-size: 18px;
-    color: var(--tg-theme-text-color);
-    background: var(--tg-theme-bg-color);
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-size: 16px;
+  color: var(--tg-theme-text-color, var(--tg-theme-text-color));
+  background: var(--tg-theme-bg-color, var(--tg-theme-bg-color));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.container {
-    max-width: 390px;
-    margin: auto;
-    padding-top: 20px;
+/* Контейнер по центру, с отступами */
+.container{
+  max-width: 420px;
+  margin: 18px auto;
+  padding: 0 12px;
+  box-sizing: border-box;
 }
 
-.inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
+/* Сетка карточек: 2 колонки */
+.inner{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  align-items: start;
 }
 
-.img {
-    width: 120px;
-    border-radius: 10px;
+/* Карточка товара */
+.item{
+  background: rgba(255,255,255,0.03); /* лёгкая заливка */
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  transition: transform .14s ease, box-shadow .14s ease;
 }
 
-.item {
-    text-align: center;
+/* эффект наведения (на десктопе) */
+.item:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.10);
 }
 
-.btn {
-    margin-top: 10px;
-    padding: 10px 20px;
-    border: none;
-    background: rgb(248, 168, 24);
-    border-radius: 10px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+/* Картинка товара */
+.img{
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+  margin-bottom: 10px;
+  background: linear-gradient(180deg,#f3f3f3,#e9e9e9);
+  flex-shrink: 0;
 }
+
+/* Название под картинкой (опционально) */
+.item .title{
+  font-size: 14px;
+  font-weight: 700;
+  margin: 6px 0 8px;
+  text-align: center;
+  color: var(--tg-theme-text-color, #111827);
+}
+
+/* Кнопка */
+.btn{
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, var(--accent, #f8a818), #e18f12);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: none;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+}
+
+/* Актив / наведение */
+.btn:active{
+  transform: translateY(1px) scale(.998);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.10);
+  opacity: .98;
+}
+
+.btn:hover{
+  filter: brightness(.98);
+}
+
+/* Мобильная корректировка: одна колонка на узких экранах */
+@media (max-width: 420px){
+  .inner{
+    grid-template-columns: 1fr;
+  }
+  .container{
+    padding: 0 10px;
+  }
+}
+
+/* Сообщение об ошибке картинок (если путь неверный) */
+.img[alt]:not([src]),
+.img[src=""]{
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color:#777;
+  font-size: 12px;
+  background: repeating-linear-gradient(45deg,#fafafa,#f5f5f5 10px);
